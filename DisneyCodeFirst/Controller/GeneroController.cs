@@ -12,9 +12,9 @@ namespace DisneyCodeFirst.Controller
     [Route("{Controller}")]
     public class GeneroController : ControllerBase
     {
-        private readonly MyDbContext _myDbContext;
+        private readonly DisneyContext _myDbContext;
 
-        public GeneroController(MyDbContext myDbContext)
+        public GeneroController(DisneyContext myDbContext)
         {
             _myDbContext = myDbContext;
         }
@@ -59,4 +59,4 @@ namespace DisneyCodeFirst.Controller
         }
     }
 }
-}
+

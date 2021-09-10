@@ -13,9 +13,9 @@ namespace DisneyCodeFirst.Controller
     [Route("PeliculasOSeries")]
     public class PeliculaOSerieController : ControllerBase
     {
-        private readonly MyDbContext _myDbContext;
+        private readonly DisneyContext _myDbContext;
 
-        public PeliculaOSerieController(MyDbContext myDbContext)
+        public PeliculaOSerieController(DisneyContext myDbContext)
         {
             _myDbContext = myDbContext;
         }

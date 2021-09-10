@@ -13,9 +13,9 @@ namespace DisneyCodeFirst.Controller
     [Route("/[controller]")]
     public class PersonajeController : ControllerBase
     {
-        private readonly MyDbContext _myDbContext;
+        private readonly DisneyContext _myDbContext;
 
-        public PersonajeController(MyDbContext myDbContext)
+        public PersonajeController(DisneyContext myDbContext)
         {
             _myDbContext = myDbContext;
         }

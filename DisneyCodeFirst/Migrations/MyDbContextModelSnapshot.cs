@@ -8,7 +8,7 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 namespace DisneyCodeFirst.Migrations
 {
-    [DbContext(typeof(MyDbContext))]
+    [DbContext(typeof(DisneyContext))]
     partial class MyDbContextModelSnapshot : ModelSnapshot
     {
         protected override void BuildModel(ModelBuilder modelBuilder)

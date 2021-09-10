@@ -9,7 +9,7 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 namespace DisneyCodeFirst.Migrations
 {
-    [DbContext(typeof(MyDbContext))]
+    [DbContext(typeof(DisneyContext))]
     [Migration("20210905121837_PrimeraDisneyCodeFirst")]
     partial class PrimeraDisneyCodeFirst
     {

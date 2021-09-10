@@ -1,5 +1,6 @@
 using DisneyCodeFirst.DataContext;
 using DisneyCodeFirst.Entities;
+using DisneyCodeFirst.Repositories;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.HttpsPolicy;
@@ -30,7 +31,6 @@ namespace DisneyCodeFirst
         public void ConfigureServices(IServiceCollection services)
         {
             services.AddEntityFrameworkSqlServer();
-            var conex = "server=DESKTOP-MNTS6IJ\\MSSQLSERVER01;database=DisneyCodeFirst;Trusted_Connection=true;";
             services.AddControllers();
             services.AddSwaggerGen(c =>
             {
@@ -38,9 +38,11 @@ namespace DisneyCodeFirst
             });
             services.AddDbContextPool<MyDbContext>(optionsAction: (provider, builder) =>
             {
-                builder.UseSqlServer(conex);
+                builder.UseSqlServer(Configuration.GetConnectionString("Conex"));
                 builder.UseInternalServiceProvider(provider);
             });
+            services.AddScoped<IPeliculasOSeriesRepository, PeliculasOSeriesRepository>();
+            services.AddScoped<IPersonajeRepository, PersonajeRepository>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

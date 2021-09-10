@@ -13,13 +13,7 @@ namespace DisneyCodeFirst.DataContext
         {
             
         }
-        //protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
-        //{
-        //    if (!optionsBuilder.IsConfigured)
-        //    {
-        //        optionsBuilder.UseSqlServer("server=DESKTOP-MNTS6IJ\\MSSQLSERVER01;database=DisneyCodeFirst;Trusted_Connection=true;");
-        //    }
-        //}
+        
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
