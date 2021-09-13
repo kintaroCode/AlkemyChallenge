@@ -2,8 +2,8 @@
 
 namespace DisneyCodeFirst.Repositories
 {
-    public interface IGeneroRepository
+    public interface IGeneroRepository : IRepository<Genero>
     {
-        Genero AddPersonaje(Genero genero);
+        
     }
 }

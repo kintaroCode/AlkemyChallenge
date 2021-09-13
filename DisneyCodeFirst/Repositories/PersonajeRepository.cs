@@ -7,9 +7,9 @@ using System.Threading.Tasks;
 
 namespace DisneyCodeFirst.Repositories
 {
-    public class PersonajeRepository : BaseRepository<Personaje, MyDbContext>, IPersonajeRepository
+    public class PersonajeRepository : BaseRepository<Personaje, DisneyContext>, IPersonajeRepository
     {
-        public PersonajeRepository(MyDbContext dbContext) : base(dbContext) { }
+        public PersonajeRepository(DisneyContext disneyContext) : base(disneyContext) { }
 
         public Personaje AddPersonaje(Personaje personaje)
         {

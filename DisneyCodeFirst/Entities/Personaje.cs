@@ -14,6 +14,9 @@ namespace DisneyCodeFirst.Entities
         public int ID { get; set; }
 
         [Required]
+        public string Imagen { get; set; }
+
+        [Required]
         [MaxLength(50)]
         public string Nombre { get; set; }
         

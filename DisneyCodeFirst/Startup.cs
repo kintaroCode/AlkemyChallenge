@@ -36,13 +36,14 @@ namespace DisneyCodeFirst
             {
                 c.SwaggerDoc("v1", new OpenApiInfo { Title = "DisneyCodeFirst", Version = "v1" });
             });
-            services.AddDbContextPool<MyDbContext>(optionsAction: (provider, builder) =>
+            services.AddDbContextPool<DisneyContext>(optionsAction: (provider, builder) =>
             {
-                builder.UseSqlServer(Configuration.GetConnectionString("Conex"));
                 builder.UseInternalServiceProvider(provider);
+                builder.UseSqlServer(Configuration.GetConnectionString(name:"Conex"));                
             });
             services.AddScoped<IPeliculasOSeriesRepository, PeliculasOSeriesRepository>();
             services.AddScoped<IPersonajeRepository, PersonajeRepository>();
+            services.AddScoped<IGeneroRepository, GeneroRepository>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

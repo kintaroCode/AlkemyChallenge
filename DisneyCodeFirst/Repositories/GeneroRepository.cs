@@ -7,9 +7,9 @@ using System.Threading.Tasks;
 
 namespace DisneyCodeFirst.Repositories
 {
-    public class GeneroRepository : BaseRepository<Genero, MyDbContext>, IGeneroRepository
+    public class GeneroRepository : BaseRepository<Genero, DisneyContext>, IGeneroRepository
     {
-        public GeneroRepository(MyDbContext dbContext) : base(dbContext) { }
+        public GeneroRepository(DisneyContext disneyContext) : base(disneyContext) { }
 
         public Genero AddPersonaje(Genero genero)
         {

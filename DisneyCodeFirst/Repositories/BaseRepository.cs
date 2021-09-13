@@ -1,4 +1,5 @@
-﻿using Microsoft.EntityFrameworkCore;
+﻿using DisneyCodeFirst.DataContext;
+using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -8,36 +9,43 @@ namespace DisneyCodeFirst.Repositories
 {
     public abstract class BaseRepository<TEntity, TContext> : IRepository<TEntity>
         where TEntity:class
-        where TContext:DbContext
+        where TContext: DisneyContext
     {
-        private readonly TContext _dbContext;
+        private readonly TContext _disneyContext;
 
-        protected  BaseRepository(TContext dbContext)
+        protected  BaseRepository(TContext disneyContext)
         {
-            _dbContext = dbContext;
+            _disneyContext = disneyContext;
         }
         public List<TEntity> GetAllEntities()
         {
-            return _dbContext.Set<TEntity>().ToList();
+            return _disneyContext.Set<TEntity>().ToList();
         }
         public TEntity Get(int id)
         {
-            return _dbContext.Set<TEntity>().Find(id);
+            return _disneyContext.Set<TEntity>().Find(id);
         }
         public TEntity Add(TEntity entity)
         {
-            _dbContext.Set<TEntity>().Add(entity);
-            _dbContext.SaveChanges();
+            _disneyContext.Set<TEntity>().Add(entity);
+            _disneyContext.SaveChanges();
             return entity;
         }
         public TEntity Update(TEntity entity)
         {
-            throw new NotImplementedException();
+            _disneyContext.Attach(entity);
+            _disneyContext.Entry(entity).State = EntityState.Modified;
+            _disneyContext.SaveChanges();
+            return entity;
         }
 
-        public TEntity Delete(TEntity entity)
+        
+        public void Delete(int id)
         {
-            throw new NotImplementedException();
+            var entity = _disneyContext.Find<TEntity>(id);
+            _disneyContext.Remove(entity);
+            _disneyContext.SaveChanges();
+            
         }
     }
   

@@ -1,5 +1,6 @@
 ﻿using DisneyCodeFirst.DataContext;
 using DisneyCodeFirst.Entities;
+using DisneyCodeFirst.Repositories;
 using Microsoft.AspNetCore.Mvc;
 using System;
 using System.Collections.Generic;
@@ -13,51 +14,66 @@ namespace DisneyCodeFirst.Controller
     [Route("PeliculasOSeries")]
     public class PeliculaOSerieController : ControllerBase
     {
-        private readonly DisneyContext _myDbContext;
+        private readonly IPeliculasOSeriesRepository _peliculasOSeriesRepository;
 
-        public PeliculaOSerieController(DisneyContext myDbContext)
+        public PeliculaOSerieController(IPeliculasOSeriesRepository peliculasOSeriesRepository)
         {
-            _myDbContext = myDbContext;
+            _peliculasOSeriesRepository = peliculasOSeriesRepository;
         }
 
         [HttpGet]
         public IActionResult Get()
         {
-            return Ok(_myDbContext.PeliculaOSerie.ToList());
+            return Ok(_peliculasOSeriesRepository.GetAllEntities());
+        }
+
+        [HttpGet]
+        [Route("ObtenerPelicula")]
+        public IActionResult Get(int id)
+        {
+            var Pelicula = _peliculasOSeriesRepository.Get(id);
+            if (Pelicula == null)
+            {
+                return BadRequest("La Pelucila no existe");
+            }
+            return Ok(Pelicula);
         }
 
         [HttpPost]
-        public IActionResult Post(PeliculaOSerie peliculaOSerie)
+        public IActionResult Post(PeliculaOSerie peliculaOSeries)
         {
-            return Ok(_myDbContext.PeliculaOSerie.Add(peliculaOSerie));
+            return Ok(_peliculasOSeriesRepository.Add(peliculaOSeries));
         }
 
         [HttpPut]
         public IActionResult Put(PeliculaOSerie peliculaOSerie)
         {
-            if (_myDbContext.PeliculaOSerie.FirstOrDefault(x => x.ID == peliculaOSerie.ID) == null)
+            var internalPeliculaOSerie = _peliculasOSeriesRepository.Get(peliculaOSerie.ID);
+            if (internalPeliculaOSerie == null)
             {
-                return BadRequest("el personaje no existe");
+                return BadRequest("la pelicula no existe");
             }
-            var internalPeliculaOSerie = _myDbContext.PeliculaOSerie.Find(peliculaOSerie.ID);            internalPeliculaOSerie.Imagen = peliculaOSerie.Imagen;
+                
+            internalPeliculaOSerie.Imagen = peliculaOSerie.Imagen;
             internalPeliculaOSerie.Titulo = peliculaOSerie.Titulo;
             internalPeliculaOSerie.FechaEstreno = peliculaOSerie.FechaEstreno;
             internalPeliculaOSerie.Calificacion = peliculaOSerie.Calificacion;
-            _myDbContext.SaveChanges();
+            _peliculasOSeriesRepository.Update(internalPeliculaOSerie);
             return Ok("Elemento Actualizado");
         }
         [HttpDelete]
         [Route("{id}")]
         public IActionResult Delete(int id)
         {
-            if (_myDbContext.PeliculaOSerie.FirstOrDefault(x => x.ID == id) == null)
+            
+            if (_peliculasOSeriesRepository.Get(id) == null)
             {
                 return BadRequest("La pelicula  no existe");
             }
-            var aux = _myDbContext.PeliculaOSerie.Find(id);
-            _myDbContext.PeliculaOSerie.Remove(aux);
-            _myDbContext.SaveChanges();
-            return Ok("Personaje Borrado");
+
+            _peliculasOSeriesRepository.Delete(id);
+            
+            return Ok("Pelicula o serie Borrada");
         }             
     }
 }

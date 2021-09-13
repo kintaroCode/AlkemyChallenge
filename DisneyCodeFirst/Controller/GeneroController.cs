@@ -1,5 +1,6 @@
 ﻿using DisneyCodeFirst.DataContext;
 using DisneyCodeFirst.Entities;
+using DisneyCodeFirst.Repositories;
 using Microsoft.AspNetCore.Mvc;
 using System;
 using System.Collections.Generic;
@@ -9,52 +10,64 @@ using System.Threading.Tasks;
 namespace DisneyCodeFirst.Controller 
 {
     [ApiController]
-    [Route("{Controller}")]
+    [Route("Genero")]
     public class GeneroController : ControllerBase
     {
-        private readonly DisneyContext _myDbContext;
+        private readonly IGeneroRepository _generoRepository;
 
-        public GeneroController(DisneyContext myDbContext)
+        public GeneroController(IGeneroRepository generoRepository)
         {
-            _myDbContext = myDbContext;
+            _generoRepository = generoRepository;
         }
 
         [HttpGet]
+        
         public IActionResult Get()
         {
-            return Ok(_myDbContext.Genero.ToList());
+            return Ok(_generoRepository.GetAllEntities());
         }
+        [HttpGet]
+        [Route("ObtenerGenero")]
+        public IActionResult Get(int Id)
+        {
+            var genero = _generoRepository.Get(Id);
+            if (genero==null)
+            {
+                return BadRequest("No existe el Genero");
+            }
 
+            return Ok(genero);
+        }
         [HttpPost]
         public IActionResult Post(Genero genero)
         {
-            return Ok(_myDbContext.Genero.Add(genero));
+            return Ok(_generoRepository.Add(genero));
         }
 
         [HttpPut]
         public IActionResult Put(Genero genero)
         {
-            if (_myDbContext.Genero.FirstOrDefault(x => x.ID ==genero.ID) == null)
+            var internalGenero = _generoRepository.Get(genero.ID);
+            if (internalGenero == null)
             {
                 return BadRequest("el personaje no existe");
             }
-            var internalGenero = _myDbContext.Genero.Find(genero.ID);
+            
             internalGenero.imagen = genero.imagen;
             internalGenero.NombreGenero = genero.NombreGenero;
-            _myDbContext.SaveChanges();
+            _generoRepository.Update(internalGenero);
             return Ok("Elemento Actualizado");
         }
         [HttpDelete]
         [Route("{id}")]
         public IActionResult Delete(int id)
         {
-            if (_myDbContext.PeliculaOSerie.FirstOrDefault(x => x.ID == id) == null)
+
+            if (_generoRepository.Get(id) == null)
             {
                 return BadRequest("El genero no existe");
             }
-            var aux = _myDbContext.Genero.Find(id);
-            _myDbContext.Genero.Remove(aux);
-            _myDbContext.SaveChanges();
+            _generoRepository.Delete(id);
             return Ok("Genero Borrado");
         }
     }

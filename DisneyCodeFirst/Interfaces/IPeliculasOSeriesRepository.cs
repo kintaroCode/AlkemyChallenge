@@ -2,8 +2,8 @@
 
 namespace DisneyCodeFirst.Repositories
 {
-    public interface IPeliculasOSeriesRepository
+    public interface IPeliculasOSeriesRepository: IRepository<PeliculaOSerie>
     {
-        PeliculaOSerie AddPersonaje(PeliculaOSerie peliculaOSerie);
+        
     }
 }

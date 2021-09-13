@@ -7,9 +7,9 @@ using DisneyCodeFirst.Entities;
 
 namespace DisneyCodeFirst.DataContext
 {
-    public partial class MyDbContext : DbContext
+    public partial class DisneyContext : DbContext
     {       
-        public MyDbContext(DbContextOptions<MyDbContext> options) : base(options)
+        public DisneyContext(DbContextOptions<DisneyContext> options) : base(options)
         {
             
         }
